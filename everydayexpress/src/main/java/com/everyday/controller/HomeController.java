@@ -1,12 +1,15 @@
 package com.everyday.controller;
 
+import com.everyday.response.ApiResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HomeController {
     @GetMapping
-    public String HomeControllerHandler() {
-        return  "Welcome to EveryDay Express";
+    public ApiResponse HomeControllerHandler() {
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setMessage("Welcome to EveryDay Express");
+        return apiResponse;
     }
 }
