@@ -1,4 +1,7 @@
 package com.everyday.service;
 
-public class AuthService {
+import com.everyday.response.SignupRequest;
+
+public interface AuthService {
+    String createUser(SignupRequest req);
 }
