@@ -4,20 +4,30 @@ import com.everyday.config.JwtProvider;
 import com.everyday.domain.USER_ROLE;
 import com.everyday.modal.Cart;
 import com.everyday.modal.User;
+import com.everyday.modal.VerificationCode;
 import com.everyday.repository.CartRepository;
 import com.everyday.repository.UserRepository;
+import com.everyday.repository.VerificationCodeRepository;
+import com.everyday.request.LoginRequest;
+import com.everyday.response.AuthResponse;
 import com.everyday.response.SignupRequest;
 import com.everyday.service.AuthService;
+import com.everyday.service.EmailService;
+import com.everyday.utils.OtpUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.MailSendException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -27,9 +37,53 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final CartRepository cartRepository;
     private final JwtProvider jwtProvider;
+    private final VerificationCodeRepository verificationCodeRepository;
+    private final EmailService emailService;
+    private final CustomUserServiceImpl customUserService;
 
     @Override
-    public String createUser(SignupRequest req) {
+    public void sentLoginOtp(String email) throws Exception {
+        String SIGNING_PREFIX = "signin_";
+
+        if (email.startsWith(SIGNING_PREFIX)) {
+            email = email.substring(SIGNING_PREFIX.length());
+
+            User user = userRepository.findByEmail(email);
+            if (user == null) {
+                throw new Exception("user not exist with provided email");
+            }
+        }
+
+        VerificationCode isExist = verificationCodeRepository.findByEmail(email);
+        if (isExist != null) {
+            verificationCodeRepository.delete(isExist);
+        }
+
+        String otp = OtpUtil.generateOtp();
+
+        VerificationCode verificationCode = new VerificationCode();
+        verificationCode.setOtp(otp);
+        verificationCode.setEmail(email);
+
+        verificationCodeRepository.save(verificationCode);
+
+        try {
+            String subject = "EveryDay Express 로그인/회원가입 OTP";
+            String text = "너의 로그인/회원가입 OTP - ";
+            emailService.sendVerificationOtpEmail(email, otp, subject, text);
+        } catch (MailSendException e) {
+            throw new Exception("OTP 이메일을 전송하는 동안 오류가 발생했습니다. 이메일 주소를 다시 확인하거나 나중에 다시 시도해주세요.", e);
+        }
+    }
+
+    @Override
+    public String createUser(SignupRequest req) throws Exception {
+        VerificationCode verificationCode = verificationCodeRepository.findByEmail(req.getEmail());
+
+        if (verificationCode == null || !verificationCode.getOtp().equals(req.getOtp())) {
+            throw new Exception("wrong otp...");
+        }
+
         User user = userRepository.findByEmail(req.getEmail());
 
         if (user == null) {
@@ -54,5 +108,44 @@ public class AuthServiceImpl implements AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return jwtProvider.generateToken(authentication);
+    }
+
+    @Override
+    public AuthResponse signing(LoginRequest req) {
+        String username = req.getEmail();
+        String otp = req.getOtp();
+
+        Authentication authentication = authenticate(username, otp);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String token = jwtProvider.generateToken(authentication);
+
+        AuthResponse authResponse = new AuthResponse();
+        authResponse.setJwt(token);
+        authResponse.setMessage("Login Success");
+
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        String roleName = authorities.isEmpty() ? null : authorities.iterator().next().getAuthority();
+
+        authResponse.setRole(USER_ROLE.valueOf(roleName));
+        return authResponse;
+    }
+
+    private Authentication authenticate(String username, String otp) {
+        UserDetails userDetails = customUserService.loadUserByUsername(username);
+
+        if (userDetails == null) {
+            throw new BadCredentialsException("invalid username");
+        }
+
+        VerificationCode verificationCode = verificationCodeRepository.findByEmail(username);
+
+        if (verificationCode == null || !verificationCode.getOtp().equals(otp)) {
+            throw new BadCredentialsException("wrong otp");
+        }
+        return new UsernamePasswordAuthenticationToken(
+                userDetails,
+                null,
+                userDetails.getAuthorities());
     }
 }

@@ -26,6 +26,7 @@ public class EmailService {
             mimeMessageHelper.setTo(userEmail);
             javaMailSender.send(mimeMessage);
         } catch (MailException e) {
+            System.out.println("error - " + e);
             throw new MailSendException("failed to send email");
         }
     }
