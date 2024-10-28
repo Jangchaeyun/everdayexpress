@@ -3,9 +3,11 @@ package com.everyday.service.impl;
 import com.everyday.config.JwtProvider;
 import com.everyday.domain.USER_ROLE;
 import com.everyday.modal.Cart;
+import com.everyday.modal.Seller;
 import com.everyday.modal.User;
 import com.everyday.modal.VerificationCode;
 import com.everyday.repository.CartRepository;
+import com.everyday.repository.SellerRepository;
 import com.everyday.repository.UserRepository;
 import com.everyday.repository.VerificationCodeRepository;
 import com.everyday.request.LoginRequest;
@@ -40,17 +42,25 @@ public class AuthServiceImpl implements AuthService {
     private final VerificationCodeRepository verificationCodeRepository;
     private final EmailService emailService;
     private final CustomUserServiceImpl customUserService;
+    private final SellerRepository sellerRepository;
 
     @Override
-    public void sentLoginOtp(String email) throws Exception {
-        String SIGNING_PREFIX = "signin_";
+    public void sentLoginOtp(String email, USER_ROLE role) throws Exception {
+        String SIGNING_PREFIX = "signing_";
 
         if (email.startsWith(SIGNING_PREFIX)) {
             email = email.substring(SIGNING_PREFIX.length());
 
-            User user = userRepository.findByEmail(email);
-            if (user == null) {
-                throw new Exception("user not exist with provided email");
+            if (role.equals(USER_ROLE.ROLE_SELLER)) {
+                Seller seller = sellerRepository.findByEmail(email);
+                if (seller == null) {
+                    throw new Exception("seller not found");
+                }
+            } else {
+                User user = userRepository.findByEmail(email);
+                if (user == null) {
+                    throw new Exception("user not exist with provided email");
+                }
             }
         }
 
@@ -111,7 +121,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthResponse signing(LoginRequest req) {
+    public AuthResponse signing(LoginRequest req) throws Exception {
         String username = req.getEmail();
         String otp = req.getOtp();
 

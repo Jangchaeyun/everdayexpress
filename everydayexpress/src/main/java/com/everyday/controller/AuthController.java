@@ -3,6 +3,8 @@ package com.everyday.controller;
 import com.everyday.domain.USER_ROLE;
 import com.everyday.modal.VerificationCode;
 import com.everyday.repository.UserRepository;
+import com.everyday.request.LoginOtpRequest;
+import com.everyday.request.LoginRequest;
 import com.everyday.response.ApiResponse;
 import com.everyday.response.AuthResponse;
 import com.everyday.response.SignupRequest;
@@ -36,12 +38,21 @@ public class AuthController {
 
     @PostMapping("/sent/login-signup-otp")
     public ResponseEntity<ApiResponse> sentOtpHandler(
-            @RequestBody VerificationCode req) throws Exception {
-        authService.sentLoginOtp(req.getEmail());
+            @RequestBody LoginOtpRequest req) throws Exception {
+        authService.sentLoginOtp(req.getEmail(), req.getRole());
 
         ApiResponse res = new ApiResponse();
         res.setMessage("otp sent successfully");
 
         return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/signing")
+    public ResponseEntity<AuthResponse> loginHandler (
+            @RequestBody LoginRequest req) throws Exception {
+
+        AuthResponse authResponse = authService.signing(req);
+
+        return ResponseEntity.ok(authResponse);
     }
 }
