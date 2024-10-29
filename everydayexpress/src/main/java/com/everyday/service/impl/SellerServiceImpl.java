@@ -3,6 +3,7 @@ package com.everyday.service.impl;
 import com.everyday.config.JwtProvider;
 import com.everyday.domain.AccountStatus;
 import com.everyday.domain.USER_ROLE;
+import com.everyday.exceptions.SellerException;
 import com.everyday.modal.Address;
 import com.everyday.modal.Seller;
 import com.everyday.repository.AddressRepository;
@@ -52,9 +53,9 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public Seller getSellerById(Long id) throws Exception {
+    public Seller getSellerById(Long id) throws SellerException {
         return sellerRepository.findById(id)
-                .orElseThrow(() -> new Exception("seller not found with id " + id));
+                .orElseThrow(() -> new SellerException("seller not found with id " + id));
     }
 
     @Override

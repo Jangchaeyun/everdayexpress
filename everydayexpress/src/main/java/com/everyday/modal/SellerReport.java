@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @EqualsAndHashCode
-public class ShellerReport {
+public class SellerReport {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

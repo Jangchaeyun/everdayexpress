@@ -57,6 +57,7 @@ public class AuthServiceImpl implements AuthService {
                     throw new Exception("seller not found");
                 }
             } else {
+                System.out.println("email " + email);
                 User user = userRepository.findByEmail(email);
                 if (user == null) {
                     throw new Exception("user not exist with provided email");
@@ -143,6 +144,11 @@ public class AuthServiceImpl implements AuthService {
 
     private Authentication authenticate(String username, String otp) {
         UserDetails userDetails = customUserService.loadUserByUsername(username);
+
+        String SELLER_PREFIX = "seller_";
+        if (username.startsWith(SELLER_PREFIX)) {
+            username = username.substring(SELLER_PREFIX.length());
+        }
 
         if (userDetails == null) {
             throw new BadCredentialsException("invalid username");
