@@ -43,7 +43,7 @@ public class Product {
 
     private LocalDateTime createdAt;
 
-    private String Sizes;
+    private String sizes;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
