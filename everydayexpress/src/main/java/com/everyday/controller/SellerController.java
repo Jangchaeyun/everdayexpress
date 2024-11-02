@@ -4,12 +4,15 @@ import com.everyday.config.JwtProvider;
 import com.everyday.domain.AccountStatus;
 import com.everyday.exceptions.SellerException;
 import com.everyday.modal.Seller;
+import com.everyday.modal.SellerReport;
 import com.everyday.modal.VerificationCode;
 import com.everyday.repository.VerificationCodeRepository;
 import com.everyday.request.LoginRequest;
+import com.everyday.response.ApiResponse;
 import com.everyday.response.AuthResponse;
 import com.everyday.service.AuthService;
 import com.everyday.service.EmailService;
+import com.everyday.service.SellerReportService;
 import com.everyday.service.SellerService;
 import com.everyday.utils.OtpUtil;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +31,7 @@ public class SellerController {
     private final AuthService authService;
     private final EmailService emailService;
     private final JwtProvider jwtProvider;
+    private final SellerReportService sellerReportService;
 
 //    @PostMapping("/sent/login-otp")
 //    public ResponseEntity<ApiResponse> sentOtpHandler(
@@ -105,13 +109,14 @@ public class SellerController {
         return new ResponseEntity<>(seller, HttpStatus.OK);
     }
 
-//    public ResponseEntity<SellerReport> getsellerReport(
-//            @RequestHeader("Authorization") String jwt
-//    ) throws Exception {
-//        String email = jwtProvider.getEmailFromToken(jwt);
-//        Seller seller = sellerService.getSellerByEmail(email);
-//        SellerReport report =
-//    }
+    @GetMapping("/report")
+    public ResponseEntity<SellerReport> getSellerReport(
+            @RequestHeader("Authorization") String jwt
+    ) throws Exception {
+        Seller seller = sellerService.getSellerProfile(jwt);
+        SellerReport report =sellerReportService.getSellerReport(seller);
+        return new ResponseEntity<>(report, HttpStatus.OK);
+    }
 
     @GetMapping
     public ResponseEntity<List<Seller>> getAllSellers(
