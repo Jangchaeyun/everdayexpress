@@ -11,13 +11,14 @@ import SearchIcon from "@mui/icons-material/Search";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import React from "react";
 import { AddShoppingCart, Storefront } from "@mui/icons-material";
+import CategorySheet from "./CategorySheet";
 
 const Navbar = () => {
   const theme = useTheme();
   const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
   return (
     <>
-      <Box>
+      <Box className="sticky top-0 left-0 right-0 bg-white " sx={{ zIndex: 2 }}>
         <div className="flex items-center justify-between px-5 lg:px-20 h-[70px] border-b">
           <div className="flex items-center gap-9">
             <div className="flex items-center gap-2">
@@ -31,7 +32,7 @@ const Navbar = () => {
               </h1>
             </div>
             <ul className="flex items-center font-medium text-gray-800">
-              {["남성", "여성", "홈 & 가구", "전자제품"].map((item) => (
+              {["전체", "남성", "여성"].map((item) => (
                 <li className="minCategory hover:text-primary-color hover:border-b-2 h-[70px] px-4 border-primary-color flex items-center">
                   {item}
                 </li>
@@ -68,6 +69,9 @@ const Navbar = () => {
               </Button>
             )}
           </div>
+        </div>
+        <div className="categorySheet absolute top-[4.41rem] left-20 right-20 border">
+          <CategorySheet />
         </div>
       </Box>
     </>
