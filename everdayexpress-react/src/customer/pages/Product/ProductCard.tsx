@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Product.css";
+import "./ProductCard.css";
 import { Button } from "@mui/material";
 import { Favorite, ModeComment } from "@mui/icons-material";
 import { teal } from "@mui/material/colors";
@@ -43,7 +43,7 @@ const ProductCard = () => {
               }}
             />
           ))}
-          {
+          {isHovered && (
             <div className="indicator flex flex-col items-center space-y-2">
               <div className="flex gap-3">
                 <Button variant="contained" color="secondary">
@@ -54,7 +54,7 @@ const ProductCard = () => {
                 </Button>
               </div>
             </div>
-          }
+          )}
         </div>
         <div className="details pt-3 space-y-1 group-hover-effect rounded-md">
           <div className="name">
