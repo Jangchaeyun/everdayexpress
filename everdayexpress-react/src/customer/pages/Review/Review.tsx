@@ -28,7 +28,7 @@ const Review = () => {
           </div>
         </div>
       </section>
-      <section className="space-y-5">
+      <section className="space-y-5 w-full">
         {[1, 1, 1, 1, 1, 1].map((item) => (
           <div className="space-y-3">
             <ReviewCard />
