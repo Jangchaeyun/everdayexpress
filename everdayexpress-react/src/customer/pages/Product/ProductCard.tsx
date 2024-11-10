@@ -32,7 +32,11 @@ const ProductCard = () => {
   return (
     <>
       <div className="group px-4 relative">
-        <div className="card" onMouseEnter={() => setIsHovered(true)}>
+        <div
+          className="card"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           {images.map((item, index) => (
             <img
               className="card-media object-top"
@@ -62,9 +66,9 @@ const ProductCard = () => {
             <p>스몰 소프트 게임 숄더백 - 다크 초콜릿</p>
           </div>
           <div className="price flex items-center gap-3">
-            <span className="font-sans text-gray-800">950,990원</span>
+            <span className="text-gray-800">950,990원</span>
             <span className="thin-line-through text-gray-400">1,090,000원</span>
-            <span className="text-primary-color font-semibold">13%</span>
+            <span className="text-primary-color font-semibold">13% 할인</span>
           </div>
         </div>
       </div>
