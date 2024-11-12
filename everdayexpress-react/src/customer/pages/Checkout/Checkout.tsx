@@ -1,7 +1,16 @@
-import { Box, Button, Modal } from "@mui/material";
-import React from "react";
+import {
+  Box,
+  Button,
+  FormControlLabel,
+  Modal,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
+import React, { useState } from "react";
 import AddressCard from "./AddressCard";
 import AddressForm from "./AddressForm";
+import { Add } from "@mui/icons-material";
+import PricingCard from "../Cart/PricingCard";
 
 const style = {
   position: "absolute",
@@ -14,10 +23,24 @@ const style = {
   p: 4,
 };
 
+const paymentGatewayList = [
+  {
+    value: "STRIPE",
+    image:
+      "https://media.licdn.com/dms/image/D4D12AQHqYFetlrOJzQ/article-cover_image-shrink_600_2000/0/1697280290306?e=2147483647&v=beta&t=Tl5-EjY4XgKyLJ_9m7aFGINGN1fG0QJFqhGSNMQuImY",
+    label: "",
+  },
+];
+
 const Checkout = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [paymentGateway, setPaymentGateway] = useState("STRIPE");
+
+  const handlePaymentChange = (event: any) => {
+    setPaymentGateway(event.target.value);
+  };
 
   return (
     <>
@@ -37,7 +60,49 @@ const Checkout = () => {
               </div>
             </div>
             <div className="py-4 px-5 rounded-md border">
-              <Button>새로운 주소 추가</Button>
+              <Button startIcon={<Add />} onClick={handleOpen}>
+                새로운 주소 추가
+              </Button>
+            </div>
+          </div>
+          <div>
+            <div>
+              <div className="space-y-3 border p-5 rounded-md">
+                <h1 className="text-primary-color font-medium pb-2 text-center">
+                  결제 수단 선택
+                </h1>
+                <RadioGroup
+                  row
+                  aria-labelledby="demo-row-radio-buttons-group-label"
+                  name="row-radio-buttons-group"
+                  className="flex justify-center pr-0"
+                  onChange={handlePaymentChange}
+                  value={paymentGateway}
+                >
+                  {paymentGatewayList.map((item) => (
+                    <FormControlLabel
+                      className="border w-[45%] pr-2  rounded-md flex justify-center"
+                      value={item.value}
+                      control={<Radio />}
+                      label={
+                        <img
+                          className="w-20 object-cover"
+                          src={item.image}
+                          alt={item.label}
+                        />
+                      }
+                    />
+                  ))}
+                </RadioGroup>
+              </div>
+            </div>
+            <div className="border rounded-md">
+              <PricingCard />
+              <div className="p-5">
+                <Button fullWidth variant="contained" sx={{ py: "11px" }}>
+                  결제하기
+                </Button>
+              </div>
             </div>
           </div>
         </div>

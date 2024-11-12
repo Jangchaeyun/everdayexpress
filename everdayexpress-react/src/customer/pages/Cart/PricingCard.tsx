@@ -15,7 +15,7 @@ const PricingCard = () => {
         </div>
         <div className="flex justify-between items-center">
           <span>배송비</span>
-          <span>Free</span>
+          <span>무료</span>
         </div>
       </div>
       <Divider />

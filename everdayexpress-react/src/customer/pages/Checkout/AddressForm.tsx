@@ -1,4 +1,4 @@
-import { Box, Grid2, TextField } from "@mui/material";
+import { Box, Button, Grid2, TextField } from "@mui/material";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import React from "react";
@@ -34,7 +34,7 @@ const AddressForm = () => {
   return (
     <Box sx={{ max: "auto" }}>
       <p className="text-xl font-bold text-center pb-5">베송지 정보</p>
-      <form>
+      <form onSubmit={formik.handleSubmit}>
         <Grid2 container spacing={3}>
           <Grid2 size={{ xs: 12 }}>
             <TextField
@@ -55,7 +55,7 @@ const AddressForm = () => {
               value={formik.values.address}
               onChange={formik.handleChange}
               error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
+              helperText={formik.touched.address && formik.errors.address}
             />
           </Grid2>
           <Grid2 size={{ xs: 6 }}>
@@ -66,7 +66,7 @@ const AddressForm = () => {
               value={formik.values.pinCode}
               onChange={formik.handleChange}
               error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
+              helperText={formik.touched.pinCode && formik.errors.pinCode}
             />
           </Grid2>
           <Grid2 size={{ xs: 6 }}>
@@ -77,8 +77,18 @@ const AddressForm = () => {
               value={formik.values.mobile}
               onChange={formik.handleChange}
               error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
+              helperText={formik.touched.mobile && formik.errors.mobile}
             />
+          </Grid2>
+          <Grid2 size={{ xs: 12 }}>
+            <Button
+              fullWidth
+              type="submit"
+              variant="contained"
+              sx={{ py: "14px" }}
+            >
+              배송지 추가
+            </Button>
           </Grid2>
         </Grid2>
       </form>
