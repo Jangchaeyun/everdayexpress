@@ -112,6 +112,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public OrderItem findById(Long id) throws Exception {
+        return null;
+    }
+
+    @Override
     public OrderItem getOrderItemById(Long id) throws Exception {
         return orderItemRepository.findById(id).orElseThrow(() ->
                 new Exception("order item not exist ..."));

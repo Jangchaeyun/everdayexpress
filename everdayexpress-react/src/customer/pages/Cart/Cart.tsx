@@ -50,6 +50,11 @@ const Cart = () => {
           </div>
           <div className="border rounded-md">
             <PricingCard />
+            <div className="p-5">
+              <Button fullWidth variant="contained" sx={{ py: "11px" }}>
+                구매하기
+              </Button>
+            </div>
           </div>
         </div>
       </div>

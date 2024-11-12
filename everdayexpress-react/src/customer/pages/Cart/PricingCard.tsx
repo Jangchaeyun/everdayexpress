@@ -17,9 +17,9 @@ const PricingCard = () => {
           <span>배송비</span>
           <span>Free</span>
         </div>
-        <Divider />
       </div>
-      <div className="flex justify-between items-center">
+      <Divider />
+      <div className="flex justify-between items-center p-5 text-primary-color">
         <span>총 가격</span>
         <span>950,990원</span>
       </div>
