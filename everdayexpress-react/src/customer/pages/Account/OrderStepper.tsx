@@ -64,7 +64,7 @@ const OrderStepper = ({ orderStatus }: any) => {
                   <FiberManualRecord sx={{ zIndex: -1 }} />
                 )}
               </Box>
-              {index < statusStep.length - 1 && (
+              {statusStep.length - 1 != index && (
                 <div
                   className={`border h-20 w-[2px] ${
                     index < currentStep

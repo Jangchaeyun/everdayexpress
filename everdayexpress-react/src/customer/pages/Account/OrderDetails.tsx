@@ -1,7 +1,8 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Divider } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import OrderStepper from "./OrderStepper";
+import { Payments } from "@mui/icons-material";
 
 const OrderDetails = () => {
   const navigate = useNavigate();
@@ -30,6 +31,56 @@ const OrderDetails = () => {
       <section className="border p-5">
         <OrderStepper orderStatus={"SHIPPED"} />
       </section>
+      <div className="border p-5">
+        <h1 className="font-bold pb-3">배달 주소</h1>
+        <div className="text-sm space-y-2">
+          <div className="flex gap-5 font-medium">
+            <p>{"EveryDay"}</p>
+            <Divider flexItem orientation="vertical" />
+            <p>01066031148</p>
+          </div>
+          <p>경기도 부천시 원미구 조마루로 105번길 8-8 3층(14589)</p>
+        </div>
+      </div>
+      <div className="border space-y-4">
+        <div className="flex justify-between text-sm pt-5 px-5">
+          <div className="space-y-1">
+            <p className="font-bold">총 가격</p>
+            <p>
+              이번에
+              <span className="text-green-500 font-medium text-xs">
+                139,010원
+              </span>
+              을 절약하셨습니다
+            </p>
+          </div>
+          <p className="font-medium">950,990원</p>
+        </div>
+        <div className="px-5">
+          <div className="bg-teal-50 px-5 py-2 text-xs font-medium flex items-center gap-3">
+            <Payments />
+            <p>착불 결제</p>
+          </div>
+        </div>
+        <Divider />
+        <div className="px-5 pb-5">
+          <p className="text-xs">
+            <strong>판매처 : </strong>르메르
+          </p>
+        </div>
+        <div className="p-10">
+          <Button
+            disabled={true}
+            color="error"
+            sx={{ py: "0.7rem" }}
+            className=""
+            variant="outlined"
+            fullWidth
+          >
+            {true ? "주문 취소됨" : "주문 취소"}
+          </Button>
+        </div>
+      </div>
     </Box>
   );
 };
