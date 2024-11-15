@@ -13,12 +13,14 @@ import React, { useState } from "react";
 import { AddShoppingCart, Storefront } from "@mui/icons-material";
 import CategorySheet from "./CategorySheet";
 import { mainCategory } from "../../../data/category/mainCategory";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const theme = useTheme();
   const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [showCategorySheet, setShowCategorySheet] = useState(false);
+  const navigate = useNavigate();
   return (
     <>
       <Box className="sticky top-0 left-0 right-0 bg-white " sx={{ zIndex: 2 }}>
@@ -30,7 +32,10 @@ const Navbar = () => {
                   <MenuIcon />
                 </IconButton>
               )}
-              <h1 className="logo cursor-pointer text-lg md:text-xl text-[#00927c]">
+              <h1
+                onClick={() => navigate("/")}
+                className="logo cursor-pointer text-lg md:text-xl text-[#00927c]"
+              >
                 EverDay Express
               </h1>
             </div>
@@ -55,8 +60,11 @@ const Navbar = () => {
             <IconButton>
               <SearchIcon />
             </IconButton>
-            {false ? (
-              <Button className="flex items-center gap-2">
+            {true ? (
+              <Button
+                onClick={() => navigate("/account/orders")}
+                className="flex items-center gap-2"
+              >
                 <Avatar
                   sx={{ width: 29, height: 29 }}
                   src="https://img.freepik.com/free-photo/anime-rainbow-landscape_23-2151712762.jpg"
@@ -69,7 +77,7 @@ const Navbar = () => {
             <IconButton>
               <FavoriteBorderIcon sx={{ fontSize: 29 }} />
             </IconButton>
-            <IconButton>
+            <IconButton onClick={() => navigate("/cart")}>
               <AddShoppingCart
                 className="text-gray-700"
                 sx={{ fontSize: 29 }}

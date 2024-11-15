@@ -70,14 +70,14 @@ const OrderDetails = () => {
         </div>
         <div className="p-10">
           <Button
-            disabled={true}
+            disabled={false}
             color="error"
             sx={{ py: "0.7rem" }}
             className=""
             variant="outlined"
             fullWidth
           >
-            {true ? "주문 취소됨" : "주문 취소"}
+            {false ? "주문 취소됨" : "주문 취소"}
           </Button>
         </div>
       </div>
