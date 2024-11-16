@@ -12,5 +12,5 @@ public class BankDetails {
 
     private String accountHolderName;
 
-    private String ifscCode;
+    private String cvcCode;
 }

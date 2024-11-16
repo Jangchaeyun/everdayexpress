@@ -43,7 +43,7 @@ public class SellerServiceImpl implements SellerService {
         newSeller.setPassword(passwordEncoder.encode(seller.getPassword()));
         newSeller.setSellerName(seller.getSellerName());
         newSeller.setPickupAddress(savedAddress);
-        newSeller.setGSTIN(seller.getGSTIN());
+        newSeller.setBIN(seller.getBIN());
         newSeller.setRole(USER_ROLE.ROLE_SELLER);
         newSeller.setMobile(seller.getMobile());
         newSeller.setBankDetails(seller.getBankDetails());
@@ -93,7 +93,7 @@ public class SellerServiceImpl implements SellerService {
         }
         if (seller.getBankDetails() != null
             && seller.getBankDetails().getAccountHolderName() != null
-            && seller.getBankDetails().getIfscCode() != null
+            && seller.getBankDetails().getCvcCode() != null
             && seller.getBankDetails().getAccountNumber() != null) {
             exisitingSeller.getBankDetails().setAccountHolderName(
                     seller.getBankDetails().getAccountHolderName()
@@ -101,25 +101,21 @@ public class SellerServiceImpl implements SellerService {
             exisitingSeller.getBankDetails().setAccountNumber(
                     seller.getBankDetails().getAccountNumber()
             );
-            exisitingSeller.getBankDetails().setIfscCode(
-                    seller.getBankDetails().getIfscCode()
+            exisitingSeller.getBankDetails().setCvcCode(
+                    seller.getBankDetails().getCvcCode()
             );
         }
         if (seller.getPickupAddress() != null
             && seller.getPickupAddress().getAddress() != null
             && seller.getPickupAddress().getMobile() != null
-            && seller.getPickupAddress().getCity() != null
-            && seller.getPickupAddress().getState() != null
             ) {
             exisitingSeller.getPickupAddress()
-                    .setAddress(seller.getPickupAddress().getAddress());
-            exisitingSeller.getPickupAddress().setCity(seller.getPickupAddress().getCity());
-            exisitingSeller.getPickupAddress().setState(seller.getPickupAddress().getState());
+                    .setAddress(seller.getPickupAddress().getAddress());;
             exisitingSeller.getPickupAddress().setMobile(seller.getPickupAddress().getMobile());
             exisitingSeller.getPickupAddress().setPinCode(seller.getPickupAddress().getPinCode());
         }
-        if (seller.getGSTIN() != null) {
-            exisitingSeller.setGSTIN(seller.getGSTIN());
+        if (seller.getBIN() != null) {
+            exisitingSeller.setBIN(seller.getBIN());
         }
 
         return sellerRepository.save(exisitingSeller);
