@@ -40,7 +40,7 @@ const SellerAccountForm = () => {
       },
       bankDetails: {
         accountNumber: "",
-        cvcCode: "",
+        accountPassword: "",
         accountHolderName: "",
       },
       sellerName: "",

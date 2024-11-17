@@ -7,7 +7,7 @@ const BecomeSellerFormStep3 = ({ formik }: any) => {
       <TextField
         fullWidth
         name="bankDetails.accountNumber"
-        label="카드번호"
+        label="계좌번호"
         value={formik.values.bankDetails.accountNumber}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
@@ -22,18 +22,18 @@ const BecomeSellerFormStep3 = ({ formik }: any) => {
       />
       <TextField
         fullWidth
-        name="bankDetails.cvcCode"
-        label="CVC"
-        value={formik.values.bankDetails.cvcCode}
+        name="bankDetails.accountPassword"
+        label="계좌 비밀번호"
+        value={formik.values.bankDetails.accountPassword}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         error={
-          formik.touched.bankDetails?.cvcCode &&
-          Boolean(formik.errors.bankDetails?.cvcCode)
+          formik.touched.bankDetails?.accountPassword &&
+          Boolean(formik.errors.bankDetails?.accountPassword)
         }
         helperText={
-          formik.touched.bankDetails?.cvcCode &&
-          formik.errors.bankDetails?.cvcCode
+          formik.touched.bankDetails?.accountPassword &&
+          formik.errors.bankDetails?.accountPassword
         }
       />
       <TextField
