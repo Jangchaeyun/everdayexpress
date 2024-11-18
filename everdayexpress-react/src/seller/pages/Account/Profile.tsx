@@ -1,9 +1,46 @@
 import { Edit } from "@mui/icons-material";
-import { Avatar, Button, Divider } from "@mui/material";
-import React from "react";
+import { Avatar, Box, Button, Divider, Modal, Typography } from "@mui/material";
+import React, { useState } from "react";
 import ProfileFieldCard from "../../../componenet/ProfileFieldCard";
+import PersonalDetails from "./PersonalDetails";
+import PickupAddress from "./PickupAddress";
+import BankDetails from "./BankDetails";
+import BusinessDetails from "./BusinessDetails";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
+};
 
 const Profile = () => {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = (formName: string) => {
+    setOpen(true);
+    setSelectedForm(formName);
+  };
+  const handleClose = () => setOpen(false);
+
+  const [selectedForm, setSelectedForm] = useState("개인정보");
+
+  const renderSeletedForm = () => {
+    switch (selectedForm) {
+      case "personalDetails":
+        return <PersonalDetails />;
+      case "pickupAddress":
+        return <PickupAddress />;
+      case "bankDetails":
+        return <BankDetails />;
+      default:
+        return <BusinessDetails />;
+    }
+  };
+
   return (
     <div className="lg:px-20 pt-3 pb-20  space-y-20">
       <div className="w-full lg:w-[70%]">
@@ -12,6 +49,7 @@ const Profile = () => {
           <div>
             <Button
               variant="contained"
+              onClick={() => handleOpen("personalDetails")}
               size="small"
               sx={{ borderRadius: "2.9rem" }}
               className="w-16 h-16"
@@ -43,6 +81,7 @@ const Profile = () => {
           <div>
             <Button
               variant="contained"
+              onClick={() => handleOpen("businessDetails")}
               size="small"
               sx={{ borderRadius: "2.9rem" }}
               className="w-16 h-16"
@@ -67,6 +106,7 @@ const Profile = () => {
           <div>
             <Button
               variant="contained"
+              onClick={() => handleOpen("pickupAddress")}
               size="small"
               sx={{ borderRadius: "2.9rem" }}
               className="w-16 h-16"
@@ -94,6 +134,7 @@ const Profile = () => {
           <div>
             <Button
               variant="contained"
+              onClick={() => handleOpen("bankDetails")}
               size="small"
               sx={{ borderRadius: "2.9rem" }}
               className="w-16 h-16"
@@ -112,6 +153,14 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>{renderSeletedForm()}</Box>
+      </Modal>
     </div>
   );
 };

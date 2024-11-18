@@ -1,7 +1,19 @@
-import { Box, Grid2, TextField } from "@mui/material";
+import { Box, Button, Grid2, TextField } from "@mui/material";
+import { useFormik } from "formik";
 import React from "react";
 
-const BecomeSellerFormStep2 = ({ formik }: any) => {
+const PickupAddress = () => {
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      mobile: "",
+      pincode: "",
+      address: "",
+    },
+    onSubmit: (values) => {
+      console.log("form submited ", values);
+    },
+  });
   return (
     <Box>
       <p className="text-xl font-bold text-center pb-5">픽업 주소</p>
@@ -51,10 +63,15 @@ const BecomeSellerFormStep2 = ({ formik }: any) => {
               helperText={formik.touched.mobile && formik.errors.mobile}
             />
           </Grid2>
+          <Grid2 size={{ xs: 12 }}>
+            <Button fullWidth variant="contained">
+              수정
+            </Button>
+          </Grid2>
         </Grid2>
       </>
     </Box>
   );
 };
 
-export default BecomeSellerFormStep2;
+export default PickupAddress;
