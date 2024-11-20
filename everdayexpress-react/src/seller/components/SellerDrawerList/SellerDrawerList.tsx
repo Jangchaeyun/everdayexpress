@@ -9,7 +9,7 @@ import {
   ShoppingBag,
 } from "@mui/icons-material";
 import React from "react";
-import DrawerList from "../../../componenet/DrawerList";
+import DrawerList from "../../../component/DrawerList";
 
 const menu = [
   {

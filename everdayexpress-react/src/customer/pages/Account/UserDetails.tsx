@@ -1,5 +1,5 @@
 import React from "react";
-import ProfileFieldCard from "../../../componenet/ProfileFieldCard";
+import ProfileFieldCard from "../../../component/ProfileFieldCard";
 import { Divider } from "@mui/material";
 
 const UserDetails = () => {

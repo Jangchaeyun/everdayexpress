@@ -1,7 +1,7 @@
 import { Edit } from "@mui/icons-material";
 import { Avatar, Box, Button, Divider, Modal, Typography } from "@mui/material";
 import React, { useState } from "react";
-import ProfileFieldCard from "../../../componenet/ProfileFieldCard";
+import ProfileFieldCard from "../../../component/ProfileFieldCard";
 import PersonalDetails from "./PersonalDetails";
 import PickupAddress from "./PickupAddress";
 import BankDetails from "./BankDetails";
