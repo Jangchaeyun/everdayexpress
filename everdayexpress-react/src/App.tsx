@@ -13,8 +13,13 @@ import { Route, Routes } from "react-router-dom";
 import BecomeSeller from "./customer/pages/BecomeSeller/BecomeSeller";
 import SellerDashboard from "./seller/pages/SellerDashboard/SellerDashboard";
 import AdminDashboard from "./admin/Pages/Dashboard/AdminDashboard";
+import { useEffect } from "react";
+import { fetchProducts } from "./State/fetchProduct";
 
 function App() {
+  useEffect(() => {
+    fetchProducts();
+  }, []);
   return (
     <ThemeProvider theme={customeTheme}>
       <div>
