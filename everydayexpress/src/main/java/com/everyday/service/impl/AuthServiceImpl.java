@@ -142,7 +142,7 @@ public class AuthServiceImpl implements AuthService {
         return authResponse;
     }
 
-    private Authentication authenticate(String username, String otp) {
+    private Authentication authenticate(String username, String otp) throws Exception {
         UserDetails userDetails = customUserService.loadUserByUsername(username);
 
         String SELLER_PREFIX = "seller_";
@@ -156,8 +156,9 @@ public class AuthServiceImpl implements AuthService {
 
         VerificationCode verificationCode = verificationCodeRepository.findByEmail(username);
 
+        System.out.println("---" + username + "---" + otp);
         if (verificationCode == null || !verificationCode.getOtp().equals(otp)) {
-            throw new BadCredentialsException("wrong otp");
+            throw new Exception("wrong otp");
         }
         return new UsernamePasswordAuthenticationToken(
                 userDetails,
