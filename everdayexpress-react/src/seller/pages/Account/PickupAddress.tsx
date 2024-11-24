@@ -19,7 +19,7 @@ const PickupAddress = () => {
       <p className="text-xl font-bold text-center pb-5">픽업 주소</p>
       <>
         <Grid2 container spacing={3}>
-          <Grid2 size={{ xs: 12 }}>
+          {/* <Grid2 size={{ xs: 12 }}>
             <TextField
               fullWidth
               name="name"
@@ -29,7 +29,7 @@ const PickupAddress = () => {
               error={formik.touched.name && Boolean(formik.errors.name)}
               helperText={formik.errors.name}
             />
-          </Grid2>
+          </Grid2> */}
           <Grid2 size={{ xs: 12 }}>
             <TextField
               fullWidth

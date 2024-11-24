@@ -17,6 +17,21 @@ const BankDetails = () => {
     <div className="space-y-5">
       <TextField
         fullWidth
+        name="accountHolderName"
+        label="계좌 소유자"
+        value={formik.values.accountHolderName}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        error={
+          formik.touched.accountHolderName &&
+          Boolean(formik.errors.accountHolderName)
+        }
+        helperText={
+          formik.touched.accountHolderName && formik.errors.accountHolderName
+        }
+      />
+      <TextField
+        fullWidth
         name="accountNumber"
         label="계좌번호"
         value={formik.values.accountNumber}
@@ -42,21 +57,7 @@ const BankDetails = () => {
           formik.touched.accountPassword && formik.errors.accountPassword
         }
       />
-      <TextField
-        fullWidth
-        name="accountHolderName"
-        label="카드 소유자"
-        value={formik.values.accountHolderName}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        error={
-          formik.touched.accountHolderName &&
-          Boolean(formik.errors.accountHolderName)
-        }
-        helperText={
-          formik.touched.accountHolderName && formik.errors.accountHolderName
-        }
-      />
+
       <Button fullWidth variant="contained">
         수정
       </Button>

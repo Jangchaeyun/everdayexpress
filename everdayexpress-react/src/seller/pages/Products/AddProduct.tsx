@@ -27,6 +27,8 @@ import { allLevelTwo } from "../../../data/category/level two/allLevelTwo";
 import { allLevelThree } from "../../../data/category/level tree/allLevelThree";
 import { menLevelThree } from "../../../data/category/level tree/menLevelThree";
 import { womenLevelThree } from "../../../data/category/level tree/womenLevelThree";
+import { useAppDispatch } from "../../../State/Store";
+import { createProduct } from "../../../State/seller/sellerProductSlice";
 
 const categoryTwo: { [key: string]: any[] } = {
   all: allLevelTwo,
@@ -43,6 +45,7 @@ const categoryThree: { [key: string]: any[] } = {
 const AddProduct = () => {
   const [uploadImage, setUploadingImage] = useState(false);
   const [snackbarOpen, setOpenSnackbar] = useState(false);
+  const dispatch = useAppDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -60,6 +63,9 @@ const AddProduct = () => {
     },
     onSubmit: (values) => {
       console.log(values);
+      dispatch(
+        createProduct({ request: values, jwt: localStorage.getItem("jwt") })
+      );
     },
   });
 

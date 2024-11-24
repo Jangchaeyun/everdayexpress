@@ -6,6 +6,7 @@ import PersonalDetails from "./PersonalDetails";
 import PickupAddress from "./PickupAddress";
 import BankDetails from "./BankDetails";
 import BusinessDetails from "./BusinessDetails";
+import { useAppSelector } from "../../../State/Store";
 
 const style = {
   position: "absolute",
@@ -25,6 +26,7 @@ const Profile = () => {
     setSelectedForm(formName);
   };
   const handleClose = () => setOpen(false);
+  const { seller } = useAppSelector((store) => store);
 
   const [selectedForm, setSelectedForm] = useState("개인정보");
 
@@ -64,14 +66,20 @@ const Profile = () => {
             src="https://img.freepik.com/free-photo/anime-rainbow-landscape_23-2151712762.jpg"
           />
           <div>
-            <ProfileFieldCard keys="판매자 이름" value={"EveryDay"} />
+            <ProfileFieldCard
+              keys="판매자 이름"
+              value={seller.profile?.sellerName}
+            />
             <Divider />
             <ProfileFieldCard
               keys="판매자 이메일"
-              value={"everyday@gmail.com"}
+              value={seller.profile?.email}
             />
             <Divider />
-            <ProfileFieldCard keys="판매자 전화번호" value={"010-6603-1148"} />
+            <ProfileFieldCard
+              keys="판매자 전화번호"
+              value={seller.profile?.mobile}
+            />
           </div>
         </div>
       </div>
@@ -92,11 +100,20 @@ const Profile = () => {
         </div>
         <div>
           <div>
-            <ProfileFieldCard keys="회사이름 / 브렌드이름" value={"르메르"} />
+            <ProfileFieldCard
+              keys="회사이름 / 브렌드이름"
+              value={seller.profile?.businessDetails.businessName}
+            />
             <Divider />
-            <ProfileFieldCard keys="사업자등록번호" value={"0123456789"} />
+            <ProfileFieldCard
+              keys="사업자등록번호"
+              value={seller.profile?.bin || "제공되지 않음"}
+            />
             <Divider />
-            <ProfileFieldCard keys="계정 상태" value={"심사 진행중"} />
+            <ProfileFieldCard
+              keys="계정 상태"
+              value={seller.profile?.accountStatus}
+            />
           </div>
         </div>
       </div>
@@ -119,12 +136,18 @@ const Profile = () => {
           <div>
             <ProfileFieldCard
               keys="주소"
-              value={"경기도 부천시 원미구 조마루로 105번길 8-8"}
+              value={seller.profile?.pickupAddress.address}
             />
             <Divider />
-            <ProfileFieldCard keys="우편번호" value={"14589"} />
+            <ProfileFieldCard
+              keys="우편번호"
+              value={seller.profile?.pickupAddress.pinCode}
+            />
             <Divider />
-            <ProfileFieldCard keys="전화번호" value={"032-123-1234"} />
+            <ProfileFieldCard
+              keys="전화번호"
+              value={seller.profile?.pickupAddress.mobile}
+            />
           </div>
         </div>
       </div>
@@ -145,11 +168,20 @@ const Profile = () => {
         </div>
         <div>
           <div>
-            <ProfileFieldCard keys="계좌 소유자" value={"장채윤"} />
+            <ProfileFieldCard
+              keys="계좌 소유자"
+              value={seller.profile?.bankDetails.accountHolderName}
+            />
             <Divider />
-            <ProfileFieldCard keys="계좌번호" value={"12345678901223"} />
+            <ProfileFieldCard
+              keys="계좌번호"
+              value={seller.profile?.bankDetails.accountNumber}
+            />
             <Divider />
-            <ProfileFieldCard keys="계좌 비밀번호" value={"123456"} />
+            <ProfileFieldCard
+              keys="계좌 비밀번호"
+              value={seller.profile?.bankDetails.accountPassword}
+            />
           </div>
         </div>
       </div>
