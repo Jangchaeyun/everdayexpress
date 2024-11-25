@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FilterSection from "./FilterSection";
 import ProductCard from "./ProductCard";
 import {
@@ -14,12 +14,18 @@ import {
 } from "@mui/material";
 import { FilterAlt } from "@mui/icons-material";
 import { Box } from "@mui/system";
+import { useAppDispatch } from "../../../State/Store";
+import { fetchAllProducts } from "../../../State/customer/ProductSlice";
+import { useParams, useSearchParams } from "react-router-dom";
 
 const Product = () => {
   const theme = useTheme();
   const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
   const [sort, setSort] = useState();
   const [page, setPage] = useState(1);
+  const dispatch = useAppDispatch();
+  const [searchParam, setSearchParam] = useSearchParams();
+  const { categoryId } = useParams();
 
   const handleSortChange = (event: any) => {
     setSort(event.target.value);
@@ -28,6 +34,11 @@ const Product = () => {
   const handlePageChange = (value: number) => {
     setPage(value);
   };
+
+  useEffect(() => {
+    const [minPrice, maxPrice] = searchParam.get("price")?.split("-") || [];
+    dispatch(fetchAllProducts({}));
+  }, []);
 
   return (
     <div className="-z-10 mt-10">
