@@ -4,13 +4,13 @@ import { Product } from "../../types/ProductTypes";
 
 const API_URL = "/products";
 
-export const fetchProductById = createAsyncThunk(
+export const fetchProductById = createAsyncThunk<Product, number>(
   "products/fetchProductById",
   async (productId, { rejectWithValue }) => {
     try {
       const response = await api.get(`${API_URL}/${productId}`);
       const data = response.data;
-      console.log("Product details data: " + data);
+      console.log("Product details data: ", data);
       return data;
     } catch (error: any) {
       console.log("error: " + error);
@@ -29,7 +29,7 @@ export const searchProduct = createAsyncThunk(
         },
       });
       const data = response.data;
-      console.log("search product data: " + data);
+      console.log("search product data: ", data);
       return data;
     } catch (error: any) {
       console.log("error: " + error);
@@ -49,7 +49,7 @@ export const fetchAllProducts = createAsyncThunk<any, any>(
         },
       });
       const data = response.data;
-      console.log("All product data: " + data);
+      console.log("All product data: ", data);
       return data;
     } catch (error: any) {
       console.log("error: " + error);
@@ -97,7 +97,7 @@ const productSlice = createSlice({
     });
     builder.addCase(fetchAllProducts.fulfilled, (state, action) => {
       state.loading = false;
-      state.products = action.payload;
+      state.products = action.payload.content;
     });
     builder.addCase(fetchAllProducts.rejected, (state, action) => {
       state.loading = false;

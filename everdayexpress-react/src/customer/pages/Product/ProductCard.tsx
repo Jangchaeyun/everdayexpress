@@ -3,25 +3,19 @@ import "./ProductCard.css";
 import { Button } from "@mui/material";
 import { Favorite, ModeComment } from "@mui/icons-material";
 import { teal } from "@mui/material/colors";
+import { Product } from "../../../types/ProductTypes";
+import { useNavigate } from "react-router-dom";
 
-const images = [
-  "https://res.cloudinary.com/dmxnml9p1/image/upload/v1731067297/image/wbelpvsaotasnf8ca4sk.webp",
-  "https://res.cloudinary.com/dmxnml9p1/image/upload/v1731067183/image/tkhh8vum9a9eujhusomg.webp",
-  "https://res.cloudinary.com/dmxnml9p1/image/upload/v1731067608/image/byfzmggjvt4pfll3tiq3.webp",
-  "https://res.cloudinary.com/dmxnml9p1/image/upload/v1731067739/image/dxlnk48m5sysadf8zfto.webp",
-  "https://res.cloudinary.com/dmxnml9p1/image/upload/v1731067845/image/csmvy5ghqcbpoxei2nrl.webp",
-  "https://res.cloudinary.com/dmxnml9p1/image/upload/v1731067933/image/e54wysgm0xpuznehnw5j.webp",
-];
-
-const ProductCard = () => {
+const ProductCard = ({ item }: { item: Product }) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let interval: any;
     if (isHovered) {
       interval = setInterval(() => {
-        setCurrentImage((prevImage) => (prevImage + 1) % images.length);
+        setCurrentImage((prevImage) => (prevImage + 1) % item.images.length);
       }, 1000);
     } else if (interval) {
       clearInterval(interval);
@@ -31,13 +25,20 @@ const ProductCard = () => {
   }, [isHovered]);
   return (
     <>
-      <div className="group px-4 relative">
+      <div
+        onClick={() =>
+          navigate(
+            `/product-details/${item.category?.categoryId}/${item.title}/${item.id}`
+          )
+        }
+        className="group px-4 relative"
+      >
         <div
           className="card"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          {images.map((item, index) => (
+          {item.images.map((item, index) => (
             <img
               className="card-media object-top"
               src={item}
@@ -62,13 +63,19 @@ const ProductCard = () => {
         </div>
         <div className="details pt-3 space-y-1 group-hover-effect rounded-md">
           <div className="name">
-            <h1>르메르</h1>
-            <p>스몰 소프트 게임 숄더백 - 다크 초콜릿</p>
+            <h1>{item.seller?.businessDetails.businessName}</h1>
+            <p>{item.title}</p>
           </div>
           <div className="price flex items-center gap-3">
-            <span className="text-gray-800">950,990원</span>
-            <span className="thin-line-through text-gray-400">1,090,000원</span>
-            <span className="text-primary-color font-semibold">13% 할인</span>
+            <span className="text-gray-800">
+              {item.sellingPrice.toLocaleString()}원
+            </span>
+            <span className="thin-line-through text-gray-400">
+              {item.mrpPrice.toLocaleString()}원
+            </span>
+            <span className="text-primary-color font-semibold">
+              {item.discountPercent}%
+            </span>
           </div>
         </div>
       </div>

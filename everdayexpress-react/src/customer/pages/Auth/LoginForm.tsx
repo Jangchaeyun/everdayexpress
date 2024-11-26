@@ -1,11 +1,10 @@
-import { Button, TextField } from "@mui/material";
-import { useFormik } from "formik";
 import React from "react";
 import { useAppDispatch } from "../../../State/Store";
+import { useFormik } from "formik";
+import { Button, TextField } from "@mui/material";
 import { sendLoginSignupOtp, signin } from "../../../State/AuthSlice";
-import { sellerLogin } from "../../../State/seller/sellerAuthSlice";
 
-const SellerLoginForm = () => {
+const LoginForm = () => {
   const dispatch = useAppDispatch();
   const formik = useFormik({
     initialValues: {
@@ -15,7 +14,7 @@ const SellerLoginForm = () => {
     onSubmit: (values) => {
       console.log("form data ", values);
       // values.otp = Number(values.otp);
-      dispatch(sellerLogin({ email: values.email, otp: values.otp }));
+      dispatch(signin(values));
     },
   });
 
@@ -23,14 +22,10 @@ const SellerLoginForm = () => {
     dispatch(sendLoginSignupOtp({ email: formik.values.email }));
   };
 
-  const handleLogin = () => {
-    // dispatch(signin({email: }))
-  };
-
   return (
     <div>
-      <h1 className="text-center font-bold text-xl text-primary-color pb-5">
-        판매자 로그인
+      <h1 className="text-center font-bold text-xl text-primary-color pb-8">
+        로그인
       </h1>
       <div className="space-y-5">
         <TextField
@@ -81,4 +76,4 @@ const SellerLoginForm = () => {
   );
 };
 
-export default SellerLoginForm;
+export default LoginForm;

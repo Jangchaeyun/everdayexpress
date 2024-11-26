@@ -45,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
             Category category = new Category();
             category.setCategoryId(req.getCategory2());
             category.setLevel(2);
-            category.setParentcategory(category1);
+            category.setParentCategory(category1);
             category2 = categoryRepository.save(category);
         }
 
@@ -54,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
             Category category = new Category();
             category.setCategoryId(req.getCategory3());
             category.setLevel(3);
-            category.setParentcategory(category2);
+            category.setParentCategory(category2);
             category3 = categoryRepository.save(category);
         }
 

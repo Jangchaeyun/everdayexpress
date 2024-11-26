@@ -1,36 +1,30 @@
-import { Button, TextField } from "@mui/material";
-import { useFormik } from "formik";
 import React from "react";
 import { useAppDispatch } from "../../../State/Store";
-import { sendLoginSignupOtp, signin } from "../../../State/AuthSlice";
-import { sellerLogin } from "../../../State/seller/sellerAuthSlice";
+import { useFormik } from "formik";
+import { sendLoginSignupOtp } from "../../../State/AuthSlice";
+import { Button, TextField } from "@mui/material";
 
-const SellerLoginForm = () => {
+const RegisterForm = () => {
   const dispatch = useAppDispatch();
   const formik = useFormik({
     initialValues: {
       email: "",
       otp: "",
+      fullName: "",
     },
     onSubmit: (values) => {
       console.log("form data ", values);
       // values.otp = Number(values.otp);
-      dispatch(sellerLogin({ email: values.email, otp: values.otp }));
     },
   });
 
   const handleSendOtp = () => {
     dispatch(sendLoginSignupOtp({ email: formik.values.email }));
   };
-
-  const handleLogin = () => {
-    // dispatch(signin({email: }))
-  };
-
   return (
     <div>
-      <h1 className="text-center font-bold text-xl text-primary-color pb-5">
-        판매자 로그인
+      <h1 className="text-center font-bold text-xl text-primary-color pb-8">
+        회원가입
       </h1>
       <div className="space-y-5">
         <TextField
@@ -44,10 +38,12 @@ const SellerLoginForm = () => {
           helperText={formik.touched.email && formik.errors.email}
         />
         {true && (
-          <div className="space-y-2">
-            <p className="font-medium text-sm opacity-20">
-              이메일로 전송된 OTP를 입력
-            </p>
+          <div className="space-y-5">
+            <div className="space-y-2">
+              <p className="font-medium text-sm opacity-20">
+                이메일로 전송된 OTP를 입력
+              </p>
+            </div>
             <TextField
               fullWidth
               name="otp"
@@ -58,27 +54,39 @@ const SellerLoginForm = () => {
               error={formik.touched.otp && Boolean(formik.errors.otp)}
               helperText={formik.touched.otp && formik.errors.otp}
             />
+            <TextField
+              fullWidth
+              name="fullName"
+              label="이름"
+              value={formik.values.fullName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.fullName && Boolean(formik.errors.fullName)}
+              helperText={formik.touched.fullName && formik.errors.fullName}
+            />
           </div>
         )}
-        <Button
-          onClick={handleSendOtp}
-          fullWidth
-          variant="contained"
-          sx={{ py: "11px" }}
-        >
-          OTP 보내기
-        </Button>
+        {false && (
+          <Button
+            onClick={handleSendOtp}
+            fullWidth
+            variant="contained"
+            sx={{ py: "11px" }}
+          >
+            OTP 보내기
+          </Button>
+        )}
         <Button
           onClick={() => formik.handleSubmit()}
           fullWidth
           variant="contained"
           sx={{ py: "11px" }}
         >
-          로그인
+          회원가입
         </Button>
       </div>
     </div>
   );
 };
 
-export default SellerLoginForm;
+export default RegisterForm;

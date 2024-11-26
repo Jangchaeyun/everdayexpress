@@ -60,7 +60,7 @@ const Navbar = () => {
             <IconButton>
               <SearchIcon />
             </IconButton>
-            {true ? (
+            {false ? (
               <Button
                 onClick={() => navigate("/account/orders")}
                 className="flex items-center gap-2"
@@ -72,7 +72,9 @@ const Navbar = () => {
                 <h1 className="font-semibold hidden lg:block">EveryDay</h1>
               </Button>
             ) : (
-              <Button variant="contained">로그인</Button>
+              <Button onClick={() => navigate("/login")} variant="contained">
+                로그인
+              </Button>
             )}
             <IconButton>
               <FavoriteBorderIcon sx={{ fontSize: 29 }} />

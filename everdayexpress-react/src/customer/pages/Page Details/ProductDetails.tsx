@@ -11,23 +11,38 @@ import {
 } from "@mui/icons-material";
 import { Button, Divider } from "@mui/material";
 import { teal } from "@mui/material/colors";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReviewCard from "../Review/ReviewCard";
-import { useAppDispatch } from "../../../State/Store";
+import { useAppDispatch, useAppSelector } from "../../../State/Store";
 import SimilarProduct from "./SimilarProduct";
+import { useParams } from "react-router-dom";
+import { fetchProductById } from "../../../State/customer/ProductSlice";
 
 const ProductDetails = () => {
   const [quantiy, setQuantity] = useState(1);
   const dispatch = useAppDispatch();
+  const { productId } = useParams();
+  const { product } = useAppSelector((store) => store);
+  const [activeImage, setActiveImage] = useState(0);
+
+  useEffect(() => {
+    dispatch(fetchProductById(Number(productId)));
+  }, [productId]);
+
+  const handleActiveImage = (value: number) => () => {
+    setActiveImage(value);
+  };
+
   return (
     <div className="px-5 lg:px-20 pt-10">
       <div className="grid grio-cols-1 lg:grid-cols-2 gap-10">
         <section className="flex flex-col lg:flex-row gap-5">
           <div className="w-full lg:w-[15%] flex flex-wrap lg:flex-col gap-3">
-            {[1, 1, 1, 1].map((item) => (
+            {product.product?.images.map((item, index) => (
               <img
+                onClick={handleActiveImage(index)}
                 className="lg:w-full w-[50px] cursor-pointer rounded-md"
-                src="https://res.cloudinary.com/dmxnml9p1/image/upload/v1731067297/image/wbelpvsaotasnf8ca4sk.webp"
+                src={item}
                 alt=""
               />
             ))}
@@ -35,17 +50,19 @@ const ProductDetails = () => {
           <div className="w-full lg:w-[85%]">
             <img
               className="w-full rounded-md"
-              src="https://res.cloudinary.com/dmxnml9p1/image/upload/v1731067297/image/wbelpvsaotasnf8ca4sk.webp"
+              src={product.product?.images[activeImage]}
               alt=""
             />
           </div>
         </section>
         <section>
-          <h1 className="font-bold text-lg text-primary-color">르메르</h1>
+          <h1 className="font-bold text-lg text-primary-color">
+            {product.product?.seller?.businessDetails.businessName}
+          </h1>
           <p className="text-gray-500 font-semibold">
-            스몰 소프트 게임 숄더백 - 다크 초콜릿
+            {product.product?.title}
           </p>
-          <div className="flex justify-between items-center py-2 border w-[180px] px-3 pt-5">
+          <div className="flex justify-between items-center py-2 border w-[180px] px-3 mt-5">
             <div className="flex gap-1 items-center">
               <span>4.5</span>
               <Star sx={{ color: teal[500], fontSize: "17px" }} />
@@ -55,11 +72,15 @@ const ProductDetails = () => {
           </div>
           <div>
             <div className="price flex items-center gap-3 mt-5">
-              <span className="text-gray-800">950,990원</span>
-              <span className="thin-line-through text-gray-400">
-                1,090,000원
+              <span className="text-gray-800">
+                {product.product?.sellingPrice.toLocaleString()}원
               </span>
-              <span className="text-primary-color font-semibold">13% 할인</span>
+              <span className="thin-line-through text-gray-400">
+                {product.product?.mrpPrice.toLocaleString()}원
+              </span>
+              <span className="text-primary-color font-semibold">
+                {product.product?.discountPercent}% 할인
+              </span>
             </div>
             <p className="text-sm">무료 배송</p>
           </div>
@@ -115,18 +136,7 @@ const ProductDetails = () => {
             </Button>
           </div>
           <div className="mt-5">
-            <p>
-              유명 패션 하우스 에르메스와 라코스테의 수석 디자이너로 활약했던
-              크리스토퍼 르메르가 1991년 본인의 이름을 내세워 론칭한 르메르.
-              차분한 디자인과 부드러운 실루엣, 뉴트럴 컬러로 프렌치 시크의
-              절제된 우아함을 선보이는 것이 특징입니다. 한 치의 오차 없는 정교한
-              테일러링을 기반으로 한 르메르의 아이템들을 부티크에서 소개합니다.
-              자수 및 패치, 각종 라벨, 가죽 제품 로고 양각 및 음각 방식, 개체별
-              제조국 등의 상품 디테일 및 브랜드 택, 브랜드 포장 봉투, 브랜드
-              더스트 백, 하드케이스, 쇼핑백 등 브랜드 구성품의 경우 생산 시기 및
-              입출고 시점에 따라 촬영된 상품 사진 및 상세페이지상의 정보와
-              고객님께서 받아보는 실제 상품의 디테일이 상이할 수 있습니다.
-            </p>
+            <p>{product.product?.description}</p>
           </div>
           <div className="mt-12 space-y-5">
             <ReviewCard />
