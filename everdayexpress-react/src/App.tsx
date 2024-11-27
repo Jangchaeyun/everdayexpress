@@ -17,10 +17,11 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./State/Store";
 import { fetchSellerProfile } from "./State/seller/sellerSlice";
 import Auth from "./customer/pages/Auth/Auth";
+import { fetchUserProfile } from "./State/AuthSlice";
 
 function App() {
   const dispatch = useAppDispatch();
-  const { seller } = useAppSelector((store) => store);
+  const { seller, auth } = useAppSelector((store) => store);
   const navigate = useNavigate();
   useEffect(() => {
     dispatch(fetchSellerProfile(localStorage.getItem("jwt") || ""));
@@ -31,6 +32,12 @@ function App() {
       navigate("/seller");
     }
   }, [seller.profile]);
+
+  useEffect(() => {
+    dispatch(
+      fetchUserProfile({ jwt: auth.jwt || localStorage.getItem("jwt") })
+    );
+  }, [auth.jwt]);
   return (
     <ThemeProvider theme={customeTheme}>
       <div>

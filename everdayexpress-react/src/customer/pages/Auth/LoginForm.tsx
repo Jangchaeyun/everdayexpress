@@ -1,11 +1,12 @@
 import React from "react";
-import { useAppDispatch } from "../../../State/Store";
+import { useAppDispatch, useAppSelector } from "../../../State/Store";
 import { useFormik } from "formik";
-import { Button, TextField } from "@mui/material";
+import { Button, CircularProgress, TextField } from "@mui/material";
 import { sendLoginSignupOtp, signin } from "../../../State/AuthSlice";
 
 const LoginForm = () => {
   const dispatch = useAppDispatch();
+  const { auth } = useAppSelector((store) => store);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -38,7 +39,7 @@ const LoginForm = () => {
           error={formik.touched.email && Boolean(formik.errors.email)}
           helperText={formik.touched.email && formik.errors.email}
         />
-        {true && (
+        {auth.otpSent && (
           <div className="space-y-2">
             <p className="font-medium text-sm opacity-20">
               이메일로 전송된 OTP를 입력
@@ -55,22 +56,25 @@ const LoginForm = () => {
             />
           </div>
         )}
-        <Button
-          onClick={handleSendOtp}
-          fullWidth
-          variant="contained"
-          sx={{ py: "11px" }}
-        >
-          OTP 보내기
-        </Button>
-        <Button
-          onClick={() => formik.handleSubmit()}
-          fullWidth
-          variant="contained"
-          sx={{ py: "11px" }}
-        >
-          로그인
-        </Button>
+        {auth.otpSent ? (
+          <Button
+            onClick={() => formik.handleSubmit()}
+            fullWidth
+            variant="contained"
+            sx={{ py: "11px" }}
+          >
+            로그인
+          </Button>
+        ) : (
+          <Button
+            onClick={handleSendOtp}
+            fullWidth
+            variant="contained"
+            sx={{ py: "11px" }}
+          >
+            {auth.loading ? <CircularProgress /> : "OTP 보내기"}
+          </Button>
+        )}
       </div>
     </div>
   );

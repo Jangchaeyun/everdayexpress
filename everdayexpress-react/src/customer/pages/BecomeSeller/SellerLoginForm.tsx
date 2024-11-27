@@ -4,9 +4,11 @@ import React from "react";
 import { useAppDispatch } from "../../../State/Store";
 import { sendLoginSignupOtp, signin } from "../../../State/AuthSlice";
 import { sellerLogin } from "../../../State/seller/sellerAuthSlice";
+import { useNavigate } from "react-router-dom";
 
 const SellerLoginForm = () => {
   const dispatch = useAppDispatch();
+  const naviagte = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -16,6 +18,7 @@ const SellerLoginForm = () => {
       console.log("form data ", values);
       // values.otp = Number(values.otp);
       dispatch(sellerLogin({ email: values.email, otp: values.otp }));
+      naviagte("/seller");
     },
   });
 

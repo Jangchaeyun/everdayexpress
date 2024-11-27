@@ -14,6 +14,7 @@ import { AddShoppingCart, Storefront } from "@mui/icons-material";
 import CategorySheet from "./CategorySheet";
 import { mainCategory } from "../../../data/category/mainCategory";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../../State/Store";
 
 const Navbar = () => {
   const theme = useTheme();
@@ -21,6 +22,7 @@ const Navbar = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [showCategorySheet, setShowCategorySheet] = useState(false);
   const navigate = useNavigate();
+  const { auth } = useAppSelector((store) => store);
   return (
     <>
       <Box className="sticky top-0 left-0 right-0 bg-white " sx={{ zIndex: 2 }}>
@@ -60,7 +62,7 @@ const Navbar = () => {
             <IconButton>
               <SearchIcon />
             </IconButton>
-            {false ? (
+            {auth.isLoggedIn ? (
               <Button
                 onClick={() => navigate("/account/orders")}
                 className="flex items-center gap-2"
