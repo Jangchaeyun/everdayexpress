@@ -5,6 +5,9 @@ import Orders from "./Orders";
 import OrderDetails from "./OrderDetails";
 import UserDetails from "./UserDetails";
 import Address from "./Address";
+import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../../State/Store";
+import { logout } from "../../../State/AuthSlice";
 
 const menu = [
   { name: "주문", path: "/account/orders" },
@@ -17,7 +20,13 @@ const menu = [
 const Account = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const handleClick = (item: any) => navigate(item.path);
+  const dispatch = useAppDispatch();
+  const handleClick = (item: any) => {
+    if (item.path === "/") {
+      dispatch(logout(navigate));
+    }
+    navigate(item.path);
+  };
   return (
     <div className="px-5 lg:px-52 min-h-screen mt-10">
       <div>

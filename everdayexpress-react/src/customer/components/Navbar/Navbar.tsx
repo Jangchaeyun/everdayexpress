@@ -71,7 +71,9 @@ const Navbar = () => {
                   sx={{ width: 29, height: 29 }}
                   src="https://img.freepik.com/free-photo/anime-rainbow-landscape_23-2151712762.jpg"
                 />
-                <h1 className="font-semibold hidden lg:block">EveryDay</h1>
+                <h1 className="font-semibold hidden lg:block">
+                  {auth.user?.fullName}
+                </h1>
               </Button>
             ) : (
               <Button onClick={() => navigate("/login")} variant="contained">

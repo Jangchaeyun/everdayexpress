@@ -116,6 +116,11 @@ const authSlice = createSlice({
       state.user = action.payload;
       state.isLoggedIn = true;
     });
+    builder.addCase(logout.fulfilled, (state) => {
+      state.jwt = null;
+      state.isLoggedIn = false;
+      state.user = null;
+    });
   },
 });
 
