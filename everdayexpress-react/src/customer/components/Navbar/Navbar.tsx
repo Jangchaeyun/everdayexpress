@@ -62,7 +62,7 @@ const Navbar = () => {
             <IconButton>
               <SearchIcon />
             </IconButton>
-            {auth.isLoggedIn ? (
+            {auth.user ? (
               <Button
                 onClick={() => navigate("/account/orders")}
                 className="flex items-center gap-2"

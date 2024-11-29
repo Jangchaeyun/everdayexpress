@@ -38,9 +38,12 @@ function App() {
       fetchUserProfile({ jwt: auth.jwt || localStorage.getItem("jwt") })
     );
   }, [auth.jwt]);
+
+  console.log("User Profile ", auth);
   return (
     <ThemeProvider theme={customeTheme}>
       <div>
+        {/* <h1 className="py-10 text-5xl">{auth.user?.email}</h1> */}
         <Navbar />
         {/* <Home /> */}
         {/* <Product /> */}

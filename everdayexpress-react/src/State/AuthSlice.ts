@@ -54,7 +54,7 @@ export const fetchUserProfile = createAsyncThunk<any, any>(
         },
       });
       console.log("user profile ", response.data);
-      return response.data.jwt;
+      return response.data;
     } catch (error) {
       console.log("error --- ", error);
     }
@@ -79,9 +79,10 @@ interface AuthState {
   otpSent: boolean;
   isLoggedIn: boolean;
   user: any | null;
+  loading: boolean;
 }
 
-const initialState = {
+const initialState: AuthState = {
   jwt: null,
   otpSent: false,
   isLoggedIn: false,
