@@ -4,9 +4,6 @@ export interface Address {
   mobile: string;
   pinCode: string;
   address: string;
-  locality: string;
-  city: string;
-  state: string;
 }
 
 export enum UserRole {

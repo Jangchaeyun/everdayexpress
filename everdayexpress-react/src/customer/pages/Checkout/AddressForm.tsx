@@ -2,6 +2,8 @@ import { Box, Button, Grid2, TextField } from "@mui/material";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import React from "react";
+import { useAppDispatch } from "../../../State/Store";
+import { createOrder } from "../../../State/customer/orderSlice";
 
 const AddressFormSchema = Yup.object().shape({
   name: Yup.string().required("이름은 필수입니다!"),
@@ -13,11 +15,12 @@ const AddressFormSchema = Yup.object().shape({
     ),
   pinCode: Yup.string()
     .required("우편번호는 필수입니다!")
-    .matches(/^[1-9][0-9]{5}$/, "우편번호 형식이 맞지 않습니다."),
+    .matches(/^\d{5}$/, "우편번호 형식이 맞지 않습니다."),
   address: Yup.string().required("주소는 필수입니다!"),
 });
 
-const AddressForm = () => {
+const AddressForm = ({ paymentGatway }: any) => {
+  const dispatch = useAppDispatch();
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -28,6 +31,13 @@ const AddressForm = () => {
     validationSchema: AddressFormSchema,
     onSubmit: (values) => {
       console.log(values);
+      dispatch(
+        createOrder({
+          address: values,
+          jwt: localStorage.getItem("jwt") || "",
+          paymentGateway: paymentGatway,
+        })
+      );
     },
   });
 
@@ -54,7 +64,7 @@ const AddressForm = () => {
               label="주소"
               value={formik.values.address}
               onChange={formik.handleChange}
-              error={formik.touched.name && Boolean(formik.errors.name)}
+              error={formik.touched.address && Boolean(formik.errors.address)}
               helperText={formik.touched.address && formik.errors.address}
             />
           </Grid2>
@@ -65,7 +75,7 @@ const AddressForm = () => {
               label="우편번호"
               value={formik.values.pinCode}
               onChange={formik.handleChange}
-              error={formik.touched.name && Boolean(formik.errors.name)}
+              error={formik.touched.pinCode && Boolean(formik.errors.pinCode)}
               helperText={formik.touched.pinCode && formik.errors.pinCode}
             />
           </Grid2>
@@ -76,7 +86,7 @@ const AddressForm = () => {
               label="전화번호(- 포함)"
               value={formik.values.mobile}
               onChange={formik.handleChange}
-              error={formik.touched.name && Boolean(formik.errors.name)}
+              error={formik.touched.mobile && Boolean(formik.errors.mobile)}
               helperText={formik.touched.mobile && formik.errors.mobile}
             />
           </Grid2>

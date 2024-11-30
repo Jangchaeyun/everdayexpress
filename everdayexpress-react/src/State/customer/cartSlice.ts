@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Cart, CartItem } from "../../types/cartTypes";
 import { api } from "../../config/Api";
 import { sumCartItemMrpPrice } from "../../Util/sumCartItemMrpPrice";
 import { sumCartItemSellingPrice } from "../../Util/sumCartItemSellingPrice";
 import { applyCoupon } from "./couponSlice";
+import { Cart, CartItem } from "../../types/cartTypes";
 
 interface CartState {
   cart: Cart | null;

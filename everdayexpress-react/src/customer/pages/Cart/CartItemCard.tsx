@@ -1,9 +1,9 @@
 import { Add, Close, Remove } from "@mui/icons-material";
 import { Button, Divider, IconButton } from "@mui/material";
 import React from "react";
-import { CartItem } from "../../../types/cartTypes";
 import { useAppDispatch } from "../../../State/Store";
 import { updateCartItem } from "../../../State/customer/cartSlice";
+import { CartItem } from "../../../types/cartTypes";
 
 const CartItemCard = ({ item }: { item: CartItem }) => {
   const dispatch = useAppDispatch();

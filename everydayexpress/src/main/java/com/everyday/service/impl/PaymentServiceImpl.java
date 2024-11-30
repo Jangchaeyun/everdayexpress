@@ -18,6 +18,7 @@ import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -25,12 +26,18 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
-    private PaymentOrderRepository paymentOrderRepository;
-    private OrderRepository orderRepository;
+    private final PaymentOrderRepository paymentOrderRepository;
+    private final OrderRepository orderRepository;
 
-    private String apiKey = "apikey";
-    private String apiSecret = "apiSecret";
-    private String stripeSecretKey = "stripeSecretKey";
+    @Value("${stripe.api.key}")
+    private String stripeSecretKey;
+
+    @Value("${razorpay.api.key}")
+    private String apiKey;
+
+    @Value("${razorpay.api.secret}")
+    private String apiSecret;
+
     @Override
     public PaymentOrder createOrder(User user, Set<Order> orders) {
         Long amount = orders.stream().mapToLong(Order::getTotalSellingPrice).sum();
@@ -128,8 +135,8 @@ public class PaymentServiceImpl implements PaymentService {
                 .addLineItem(SessionCreateParams.LineItem.builder()
                         .setQuantity(1L)
                         .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
-                                .setCurrency("kwd")
-                                .setUnitAmount(amount * 100)
+                                .setCurrency("krw")
+                                .setUnitAmount(amount)
                                 .setProductData(
                                         SessionCreateParams
                                                 .LineItem.PriceData.ProductData
