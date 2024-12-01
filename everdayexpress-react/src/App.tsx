@@ -19,6 +19,7 @@ import { fetchSellerProfile } from "./State/seller/sellerSlice";
 import Auth from "./customer/pages/Auth/Auth";
 import { fetchUserProfile } from "./State/AuthSlice";
 import PaymentSuccess from "./customer/pages/PaymentSuccess";
+import Wishlist from "./customer/pages/Wishlist/Wishlist";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -44,15 +45,7 @@ function App() {
   return (
     <ThemeProvider theme={customeTheme}>
       <div>
-        {/* <h1 className="py-10 text-5xl">{auth.user?.email}</h1> */}
         <Navbar />
-        {/* <Home /> */}
-        {/* <Product /> */}
-        {/* <ProductDetails /> */}
-        {/* <Review /> */}
-        {/* <Cart /> */}
-        {/* <Checkout /> */}
-        {/* <Account /> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Auth />} />
@@ -63,6 +56,7 @@ function App() {
             element={<ProductDetails />}
           />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route
             path="/payment-success/:orderId"

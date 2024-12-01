@@ -1,25 +1,51 @@
 import { Box, Button, Divider } from "@mui/material";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import OrderStepper from "./OrderStepper";
 import { Payments } from "@mui/icons-material";
+import { useAppDispatch, useAppSelector } from "../../../State/Store";
+import { useSelector } from "react-redux";
+import {
+  fetchOrderById,
+  fetchOrderItemById,
+} from "../../../State/customer/orderSlice";
 
 const OrderDetails = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { orderId, orderItemId } = useParams();
+  const { order } = useAppSelector((store) => store);
+
+  useEffect(() => {
+    dispatch(
+      fetchOrderById({
+        orderId: Number(orderId),
+        jwt: localStorage.getItem("jwt") || "",
+      })
+    );
+    dispatch(
+      fetchOrderItemById({
+        orderItemId: Number(orderItemId),
+        jwt: localStorage.getItem("jwt") || "",
+      })
+    );
+  }, []);
   return (
     <Box className="space-y-5">
       <section className="flex flex-col gap-5 justify-center items-center">
         <img
           className="w-[100px]"
-          src="https://image.msscdn.net/thumbnails/images/goods_img/20240816/4336354/4336354_17247392379149_big.jpg?w=1200"
+          src={order.orderItem?.product.images[0]}
           alt=""
         />
         <div className="text-sm space-y-1 text-center">
-          <h1 className="font-bold">스몰 소프트 게임 숄더백 - 다크 초콜릿</h1>
-          <p>르메르</p>
+          <h1 className="font-bold">
+            {order.orderItem?.product.seller?.businessDetails.businessName}
+          </h1>
+          <p>{order.orderItem?.product.title}</p>
           <p>
             <strong>사이즈: </strong>
-            Free 사이즈
+            {order.orderItem?.product.sizes}
           </p>
         </div>
         <div>
@@ -35,11 +61,15 @@ const OrderDetails = () => {
         <h1 className="font-bold pb-3">배달 주소</h1>
         <div className="text-sm space-y-2">
           <div className="flex gap-5 font-medium">
-            <p>{"EveryDay"}</p>
+            <p>{order.currentOrder?.shippingAddress.name}</p>
             <Divider flexItem orientation="vertical" />
-            <p>01066031148</p>
+            <p>{order.currentOrder?.shippingAddress.mobile}</p>
           </div>
-          <p>경기도 부천시 원미구 조마루로 105번길 8-8 3층(14589)</p>
+          <p>
+            {order.currentOrder?.shippingAddress.address}
+            {" - "}
+            {order.currentOrder?.shippingAddress.pinCode}
+          </p>
         </div>
       </div>
       <div className="border space-y-4">
@@ -54,7 +84,9 @@ const OrderDetails = () => {
               을 절약하셨습니다
             </p>
           </div>
-          <p className="font-medium">950,990원</p>
+          <p className="font-medium">
+            {order.orderItem?.sellingPrice.toLocaleString()}원
+          </p>
         </div>
         <div className="px-5">
           <div className="bg-teal-50 px-5 py-2 text-xs font-medium flex items-center gap-3">
@@ -65,7 +97,8 @@ const OrderDetails = () => {
         <Divider />
         <div className="px-5 pb-5">
           <p className="text-xs">
-            <strong>판매처 : </strong>르메르
+            <strong>판매처 : </strong>
+            {order.orderItem?.product.seller?.businessDetails.businessName}
           </p>
         </div>
         <div className="p-10">

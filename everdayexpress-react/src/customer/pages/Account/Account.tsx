@@ -5,7 +5,6 @@ import Orders from "./Orders";
 import OrderDetails from "./OrderDetails";
 import UserDetails from "./UserDetails";
 import Address from "./Address";
-import { useDispatch } from "react-redux";
 import { useAppDispatch } from "../../../State/Store";
 import { logout } from "../../../State/AuthSlice";
 
@@ -54,7 +53,7 @@ const Account = () => {
             <Route path="/" element={<UserDetails />} />
             <Route path="/orders" element={<Orders />} />
             <Route
-              path="/order/:orderId:/orderItemId"
+              path="/order/:orderId/:orderItemId"
               element={<OrderDetails />}
             />
             <Route path="/address" element={<Address />} />

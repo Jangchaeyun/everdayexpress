@@ -80,7 +80,7 @@ const Navbar = () => {
                 로그인
               </Button>
             )}
-            <IconButton>
+            <IconButton onClick={() => navigate("/wishlist")}>
               <FavoriteBorderIcon sx={{ fontSize: 29 }} />
             </IconButton>
             <IconButton onClick={() => navigate("/cart")}>
