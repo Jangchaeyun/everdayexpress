@@ -27,7 +27,8 @@ const ProductCard = ({ item }: { item: Product }) => {
     return () => clearInterval(interval);
   }, [isHovered]);
 
-  const handleWishlist = () => {
+  const handleWishlist = (event: any) => {
+    event.stopPropagation();
     item.id && dispatch(addProductToWishlist({ productId: item.id }));
   };
   return (
