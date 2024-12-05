@@ -39,24 +39,10 @@ public class OrderController {
         PaymentOrder paymentOrder = paymentService.createOrder(user, orders);
 
         PaymentLinkResponse res = new PaymentLinkResponse();
-
-        if (paymentMethod.equals(PaymentMethod.RAZORPAY)) {
-            PaymentLink payment = paymentService.createRazorpayPaymentLink(user,
-                    paymentOrder.getAmount(),
-                    paymentOrder.getId());
-            String paymentUrl = payment.get("short_url");
-            String paymentUrlId = payment.get("id");
-
-            res.setPayment_link_url(paymentUrl);
-
-            paymentOrder.setPaymentLinkId(paymentUrlId);
-            paymentOrderRepository.save(paymentOrder);
-        } else {
             String paymentUrl = paymentService.createStripePaymentLink(user,
                     paymentOrder.getAmount(),
                     paymentOrder.getId());
             res.setPayment_link_url(paymentUrl);
-        }
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
